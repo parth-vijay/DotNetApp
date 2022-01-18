@@ -14,13 +14,14 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Get the version
+        id: tag
         run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10})
 
       - name: Build the tagged Docker image
-        run: docker build -t parth10/dotnetapp:${{steps.vars.outputs.tag}} .
+        run: docker build -t parth10/dotnetapp:${{steps.tag.outputs.tag}} .
 
       - name: Push the tagged Docker image
-        run: docker push parth10/dotnetapp:${{steps.vars.outputs.tag}}
+        run: docker push parth10/dotnetapp:${{steps.tag.outputs.tag}}
 
       - name: Build the latest Docker image
         run: docker build -t parth10/dotnetapp:latest .
