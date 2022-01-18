@@ -20,13 +20,13 @@ jobs:
         run: docker build -t parth10/dotnetapp:${{steps.vars.outputs.tag}} .
 
       - name: Push the tagged Docker image
-          run: docker push parth10/dotnetapp:${{steps.vars.outputs.tag}}
+        run: docker push parth10/dotnetapp:${{steps.vars.outputs.tag}}
 
       - name: Build the latest Docker image
         run: docker build -t parth10/dotnetapp:latest .
 
       - name: Push the latest Docker image
-          run: docker push parth10/dotnetapp:latest
+        run: docker push parth10/dotnetapp:latest
       #   uses: docker/login-action@v1
       #   with:
       #     username: ${{ secrets.DOCKER_USERNAME }}
