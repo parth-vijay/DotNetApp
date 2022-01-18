@@ -26,5 +26,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/dotnetapp:latest
-          tags: ${{ secrets.DOCKER_USERNAME }}/dotnetapp:$GITHUB_SHA
+          tags: ${{ secrets.DOCKER_USERNAME }}/dotnetapp:latest, ${{ secrets.DOCKER_USERNAME }}/dotnetapp:$GITHUB_SHA
