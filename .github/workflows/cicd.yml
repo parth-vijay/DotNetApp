@@ -41,7 +41,7 @@ jobs:
   
     - name: 'Run Azure CLI commands'
       uses: azure/CLI@v1
-        with:
+      with:
         azcliversion: 2.0.72
         inlineScript: |
             az account show
