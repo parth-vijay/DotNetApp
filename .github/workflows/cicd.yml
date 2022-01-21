@@ -40,10 +40,11 @@ jobs:
     - name: 'Az CLI login'
       run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-    - name: "Get az version"
-      run : |
-        az --version
-        az login -u ${{ secrets.AZURE_USERNAME }} -p ${{ secrets.AZURE_PASSWORD }}
+    # - name: "Get az version"
+    #   run : |
+    #     az login -u ${{ secrets.AZURE_USERNAME }} -p ${{ secrets.AZURE_PASSWORD }}
+    #     az --version
+    
   #     uses: azure/login@v1
   #     with:
   #         client-id: ${{ secrets.AZURE_CLIENT_ID }}
