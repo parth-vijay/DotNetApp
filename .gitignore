@@ -16,6 +16,7 @@
 *.tfstate.*
 .terraformrc
 terraform.rc
+*.tfvars
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
