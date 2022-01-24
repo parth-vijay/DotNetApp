@@ -16,18 +16,25 @@ resource "azurerm_resource_group" "resourcegroup" {
   location = "South India"
 }
 
-resource "azurerm_container_group" "resourcegroup" {
+resource "azurerm_container_group" "azurecontainer" {
   name                = "dotNetdocker"
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name
   ip_address_type     = "public"
+  dns_name_label      = "dotnetapp"
   os_type             = "linux"
+
+  image_registry_credential {
+    server = "index.docker.io"
+    username = var.docker_username
+    password = var.docker_password
+  }
 
   container {
     name   = "test-container"
-    image  = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
-    cpu    = "0.5"
-    memory = "1.5"
+    image  = "parth10/dotnetapp:latest"
+    cpu    = "1.0"
+    memory = "1.0"
 
     ports {
       port     = 80
