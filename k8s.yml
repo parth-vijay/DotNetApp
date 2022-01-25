@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: dotnet-server
+  name: dotnet-server
+spec:
+  type: NodePort  
+  selector:
+    app: dotnet-server
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: dotnet-server
+  name: dotnet-server
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dotnet-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dotnet-server
+    spec:
+      imagePullSecrets:
+        - name: docker-reg
+      containers:
+        - image: "parth10/dotnetapp:latest"
+          imagePullPolicy: Always
+          name: dotnet-container
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # acme.cert-manager.io/http01-edit-in-place: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_token"
+    nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+  name: ingress-server
+spec:
+  rules:
+    # - host: dotnetapp.in
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dotnet-server
+                port:
+                  number: 80
