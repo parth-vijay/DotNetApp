@@ -72,3 +72,13 @@
 
 ### To update to the latest, run.
     brew upgrade hashicorp/tap/terraform
+
+## Horizontal Auto Scale in minikube:
+    minikube addons list
+    minikube addons enable metrics-server
+    kubectl get pod,svc -n kube-system
+    kubectl autoscale deployment <DEPLOYMENT_NAME> --cpu-percent=50 --min=1 --max=10
+    kubectl get hpa
+
+## Increase the load:
+    kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://192.168.59.100:32462/; done"
