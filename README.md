@@ -106,10 +106,10 @@
 ## Point Nginx Ingress Let’s Encrypt Certificate in Nginx Ingress:
     kubectl edit ingress nginx-ingress
 
-    ```
+Edit the following lines in file:
+
     cert-manager.io/cluster-issuer: letsencrypt-prod
     tls:
     - hosts:
         - nginxapp.fosstechnix.info
         secretName: nginxapp.fosstechnix.info-tls
-    ```
