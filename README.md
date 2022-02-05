@@ -82,3 +82,34 @@
 
 ## Increase the load:
     kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://192.168.59.100:32462/; done"
+
+## Install Traefik Ingress Controller via Helm:
+    helm repo add traefik https://helm.traefik.io/traefik
+    helm repo update
+    kubectl create namespace traefik
+    helm install traefik traefik/traefik -n traefik
+    kubectl port-forward $(kubectl get pods --selector "app.kubernetes.io/name=traefik" --output=name) 9000:9000
+
+## Configure cert manager for Nginx Ingress:
+    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.1/cert-manager.yaml             (Kubernetes version 1.16+)
+
+    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.1/cert-manager-legacy.yaml      (Kubernetes <1.16 version)
+
+## Kubernetes Nginx Ingress Controller LetsEncrypt:
+    kubectl apply -f letsencrypt-issuer.yml
+
+## Creating Nginx Ingress Let’s Encrypt TLS Certificate:
+    kubectl apply -f letsencrypt-cert.yml
+    kubectl get certificates nginxapp.fosstechnix.info
+    kubectl get secrets nginxapp.fosstechnix.info-tls
+
+## Point Nginx Ingress Let’s Encrypt Certificate in Nginx Ingress:
+    kubectl edit ingress nginx-ingress
+
+    ```
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls:
+    - hosts:
+        - nginxapp.fosstechnix.info
+        secretName: nginxapp.fosstechnix.info-tls
+    ```
