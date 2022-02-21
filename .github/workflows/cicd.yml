@@ -13,12 +13,12 @@ jobs:
   build:
     name: Build on dev
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev'
     steps:
   #     - name: Checkout 
   #       uses: actions/checkout@v2
 
       - name: Login to Docker Hub
+        if: github.ref == 'refs/heads/dev'
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
   #     - name: Get the version
@@ -44,14 +44,6 @@ jobs:
     steps:
     - name: 'Az CLI login'
       run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
-  build:
-    name: Build on prod
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
     # - name: "Get az version"
     #   run : |
