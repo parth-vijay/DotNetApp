@@ -11,6 +11,7 @@ permissions:
 jobs:
   # job:
   build:
+    name: Build on dev
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
     steps:
@@ -37,6 +38,7 @@ jobs:
   #       run: docker push parth10/dotnetapp:latest
 
   deploy:
+    name: Deploy on dev
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
     steps:
