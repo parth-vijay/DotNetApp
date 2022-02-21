@@ -36,11 +36,12 @@ jobs:
   #     - name: Push the latest Docker image
   #       run: docker push parth10/dotnetapp:latest
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: 'Az CLI login'
-  #     run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    steps:
+    - name: 'Az CLI login'
+      run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
     # - name: "Get az version"
     #   run : |
