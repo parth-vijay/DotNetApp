@@ -9,14 +9,16 @@ permissions:
   contents: read
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
+  # job:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
   #     - name: Checkout 
   #       uses: actions/checkout@v2
 
-  #     - name: Login to Docker Hub
-  #       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
   #     - name: Get the version
   #       id: tag
@@ -34,11 +36,11 @@ jobs:
   #     - name: Push the latest Docker image
   #       run: docker push parth10/dotnetapp:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Az CLI login'
-      run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: 'Az CLI login'
+  #     run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
     # - name: "Get az version"
     #   run : |
