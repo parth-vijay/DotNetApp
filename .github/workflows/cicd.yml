@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo npm install -g snyk
           sudo snyk auth ${{ secrets.SNYK_TOKEN }}
-          sudo snyk test --all-projects
+          sudo snyk test
       #   displayName: 'install snyk'
       # - script: |
       #     sudo snyk test --all-projects
