@@ -24,7 +24,7 @@ jobs:
       #   with:
       #     command: monitor
       - name: Snyk test
-        script: |
+        run: |
           sudo npm install -g snyk
           sudo snyk auth ${{ secrets.SNYK_TOKEN }}
           sudo snyk test --all-projects
