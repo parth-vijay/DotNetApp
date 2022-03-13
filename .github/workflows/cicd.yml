@@ -24,17 +24,13 @@ jobs:
       #     command: monitor
       - script: |
           sudo npm install -g snyk
-
-          # create variable in Pipelines called 'SNYK_TOKEN' and securely save your Snyk token value
-          # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables
-
           sudo snyk auth ${{ secrets.SNYK_TOKEN }}
-        displayName: 'install snyk'
-
-      - script: |
           sudo snyk test --all-projects
-          # sudo snyk test --file=OAI.sln
-        displayName: 'sudo snyk test
+      #   displayName: 'install snyk'
+      # - script: |
+      #     sudo snyk test --all-projects
+      #     # sudo snyk test --file=OAI.sln
+      #   displayName: 'sudo snyk test'
 
 
 
