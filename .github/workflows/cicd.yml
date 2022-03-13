@@ -17,11 +17,11 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
         continue-on-error: false
-        run: synk auth
+        # run: synk auth
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: monitor
+          command: auth
 
 
 
