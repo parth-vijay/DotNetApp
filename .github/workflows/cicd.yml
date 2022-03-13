@@ -21,7 +21,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: auth
+          command: monitor
 
 
 
