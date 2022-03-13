@@ -13,15 +13,28 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/dotnet@master
-        continue-on-error: false
-        # run: synk auth
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: monitor
+      # - uses: actions/checkout@master
+      # - name: Run Snyk to check for vulnerabilities
+      #   uses: snyk/actions/dotnet@master
+      #   continue-on-error: false
+      #   # run: synk auth
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     command: monitor
+      - script: |
+          sudo npm install -g snyk
+
+          # create variable in Pipelines called 'SNYK_TOKEN' and securely save your Snyk token value
+          # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables
+
+          sudo snyk auth ${{ secrets.SNYK_TOKEN }}
+        displayName: 'install snyk'
+
+      - script: |
+          sudo snyk test --all-projects
+          # sudo snyk test --file=OAI.sln
+        displayName: 'sudo snyk test
 
 
 
