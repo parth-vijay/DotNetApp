@@ -1,8 +1,7 @@
 name: ci
-on: [push, pull_request]
-  # push
-    # branches:
-    #   - 'main'
+on:
+  push:
+    branches: [ dev, main ]
 
 permissions:
   id-token: write
@@ -10,20 +9,46 @@ permissions:
 
 jobs:
   # job:
-  build:
-    name: Build on dev
-    runs-on: ubuntu-latest
-    steps:
+  # security:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+      # - name: Run Snyk to check for vulnerabilities
+      #   uses: snyk/actions/dotnet@master
+      #   continue-on-error: false
+      #   # run: synk auth
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     command: monitor
+      # - name: Snyk test
+      #   run: |
+      #     sudo npm install -g snyk
+      #     sudo snyk auth ${{ secrets.SNYK_TOKEN }}
+      #     sudo snyk test
+      #   displayName: 'install snyk'
+      # - script: |
+      #     sudo snyk test --all-projects
+      #     # sudo snyk test --file=OAI.sln
+      #   displayName: 'sudo snyk test'
+
+
+
+  # build:
+  #   name: Build on dev
+  #   runs-on: ubuntu-latest
+  #   steps:
   #     - name: Checkout 
   #       uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        if: github.ref == 'refs/heads/main'
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Login to Docker Hub
+      #   if: github.ref == 'refs/heads/main'
+      #   run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Login to Docker Hub
-        if: github.ref == 'refs/heads/dev'
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Login to Docker Hub
+      #   if: github.ref == 'refs/heads/dev'
+      #   run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
   #     - name: Get the version
   #       id: tag
@@ -39,15 +64,29 @@ jobs:
   #       run: docker build -t parth10/dotnetapp:latest .
 
   #     - name: Push the latest Docker image
-  #       run: docker push parth10/dotnetapp:latest
+  #       run: docker push parth10/dotnetapp:latest\
 
   deploy:
-    name: Deploy on dev
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev'
+    name: Deployment to server
     steps:
-    - name: 'Az CLI login'
-      run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    - name: SSH to remote server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        key: ${{ secrets.KEY }}
+        username: ${{ secrets.USERNAME }}
+        script: |
+          echo ${{ github.ref }}
+
+
+  # deploy:
+  #   name: Deploy on dev
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/dev'
+  #   steps:
+  #   - name: 'Az CLI login'
+  #     run : curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
     # - name: Configure AWS credentials
     #   uses: aws-actions/configure-aws-credentials@v1
