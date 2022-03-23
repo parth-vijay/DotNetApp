@@ -71,7 +71,7 @@ jobs:
     name: Deployment to server
     steps:
     - name: SSH to dev
-      if ${{ github.ref == 'refs/heads/dev' }}
+      if: ${{ github.ref == 'refs/heads/dev' }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -79,9 +79,9 @@ jobs:
         username: ${{ secrets.USERNAME }}
         script: |
           echo ${{ github.ref }}
-          
+
     - name: SSh to main
-        if ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ github.ref == 'refs/heads/main' }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
