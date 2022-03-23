@@ -70,16 +70,23 @@ jobs:
     runs-on: ubuntu-latest
     name: Deployment to server
     steps:
-    - name: SSH to remote server
+    - name: SSH to dev
+      if ${{ github.ref == 'refs/heads/dev' }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         key: ${{ secrets.KEY }}
         username: ${{ secrets.USERNAME }}
-        if ${{ github.ref == 'refs/heads/dev' }}
         script: |
           echo ${{ github.ref }}
+          
+    - name: SSh to main
         if ${{ github.ref == 'refs/heads/main' }}
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        key: ${{ secrets.KEY }}
+        username: ${{ secrets.USERNAME }}
         script: |
           echo main
 
